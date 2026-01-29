@@ -1,6 +1,6 @@
 # TT13 DocGen - Handover Document
 
-> Cập nhật lần cuối: 2026-01-29 14:25
+> Cập nhật lần cuối: 2026-01-29 14:30
 
 ## 1. Tổng quan dự án
 
@@ -15,9 +15,9 @@
 
 ## 2. Trạng thái hiện tại
 
-### Deployment Status: 🔄 ĐANG DEPLOY
+### Deployment Status: ✅ DEPLOYED
 
-Render đang build lại sau khi fix lỗi database provider (SQLite → PostgreSQL).
+App đã deploy thành công trên Render.
 
 ### Checklist Environment Variables trên Render:
 
@@ -87,11 +87,12 @@ npm start
 
 ## 4. Pending / Next Steps
 
-### Ngay sau khi deploy thành công:
-1. [ ] Test Demo Login tại `/login`
-2. [ ] Kiểm tra database tables được tạo
+### Cần test ngay:
+1. [ ] Test Demo Login tại https://tt13-docgen-web.onrender.com/login
+2. [ ] Kiểm tra dashboard sau khi login
 3. [ ] Test tạo project mới
-4. [ ] Seed preset documents (chạy `npx prisma db seed`)
+4. [ ] Test Knowledge Base (Thư viện)
+5. [ ] Test Settings > API Keys
 
 ### Tính năng cần phát triển thêm:
 1. [ ] Document generation với AI (7 công đoạn TT13)
