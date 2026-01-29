@@ -23,13 +23,13 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link
-            href="#features"
+            href="/#features"
             className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
           >
             Tính năng
           </Link>
           <Link
-            href="#demo"
+            href="/#demo"
             className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
           >
             Demo
@@ -71,14 +71,14 @@ Bắt đầu
         <div className="md:hidden border-t border-white/5 bg-slate-950/95 backdrop-blur-xl">
           <nav className="container py-4 flex flex-col space-y-4">
             <Link
-              href="#features"
+              href="/#features"
               className="text-sm font-medium text-slate-400 hover:text-white"
               onClick={() => setMobileMenuOpen(false)}
             >
               Tính năng
             </Link>
             <Link
-              href="#demo"
+              href="/#demo"
               className="text-sm font-medium text-slate-400 hover:text-white"
               onClick={() => setMobileMenuOpen(false)}
             >
