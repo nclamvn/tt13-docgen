@@ -1,6 +1,6 @@
 # TT13 DocGen - Handover Document
 
-> Cập nhật lần cuối: 2026-01-29 14:30
+> Cập nhật lần cuối: 2026-01-29 14:50
 
 ## 1. Tổng quan dự án
 
@@ -155,6 +155,9 @@ tt13-docgen/
 | Cả 2 menu items active | Logic isActive sai | Cập nhật logic kiểm tra exact match trước |
 | Prisma P1012 | Schema dùng SQLite, deploy dùng PostgreSQL | Đổi provider từ `sqlite` → `postgresql` |
 | Auth error | Thiếu env vars | Thêm DATABASE_URL, NEXTAUTH_URL, NEXTAUTH_SECRET |
+| Tiêu đề docs bị cắt | Fixed header che nội dung | Thêm `pt-24` cho docs page |
+| Links Tính năng/Demo không hoạt động | Anchor links không hoạt động từ trang khác | Đổi `#features` → `/#features` |
+| Icon chuông không có nội dung | Chưa implement | Xóa icon |
 
 ---
 
