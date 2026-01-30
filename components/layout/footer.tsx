@@ -23,7 +23,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed">
-              Bộ công cụ AI-Powered cho doanh nghiệp phần mềm Việt Nam. Tự động hóa quy trình, tiết kiệm thời gian.
+              TC Data Tools - Bộ công cụ AI cao cấp. Tự động hóa quy trình, tiết kiệm thời gian.
             </p>
             <div className="flex items-center gap-2 text-xs text-primary-400">
               <Sparkles className="h-4 w-4" />

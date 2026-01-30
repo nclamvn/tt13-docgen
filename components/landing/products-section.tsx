@@ -66,12 +66,11 @@ export function ProductsSection() {
             Sản phẩm
           </span>
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Bộ công cụ{' '}
             <span className="bg-gradient-to-r from-primary-500 to-emerald-500 bg-clip-text text-transparent">
-              AI-Powered
+              TC Data Tools
             </span>
             <br />
-            cho doanh nghiệp phần mềm
+            Bộ công cụ AI cao cấp
           </h2>
           <p className="text-lg text-slate-600">
             Tự động hóa quy trình, tiết kiệm thời gian, nâng cao chất lượng
