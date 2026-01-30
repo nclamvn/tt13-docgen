@@ -11,6 +11,8 @@ services:
         generateValue: true
       - key: NEXTAUTH_URL
         sync: false
+      - key: NEXT_PUBLIC_POWERBI_STUDIO_URL
+        sync: false
       - key: GOOGLE_CLIENT_ID
         sync: false
       - key: GOOGLE_CLIENT_SECRET
