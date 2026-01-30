@@ -98,7 +98,7 @@ export function CTASection() {
                     <product.icon className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="font-semibold text-white mb-1">{product.name}</h3>
-                  <p className="text-sm text-slate-500 mb-4">{product.description}</p>
+                  <p className="text-sm text-white/60 mb-4">{product.description}</p>
                   <Button
                     className={`w-full bg-gradient-to-r ${product.gradient} text-white border-0 shadow-lg ${product.shadow}`}
                   >
@@ -112,7 +112,7 @@ export function CTASection() {
 
           {/* Bottom text */}
           <motion.p
-            className="mt-8 text-sm text-slate-600"
+            className="mt-8 text-sm text-white/60"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
