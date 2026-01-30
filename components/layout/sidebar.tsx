@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 import { useSidebarStore } from '@/stores/sidebar-store'
 import {
-  FileText,
   LayoutDashboard,
   FolderOpen,
   Plus,
@@ -68,26 +67,23 @@ export function Sidebar() {
           </div>
         </div>
 
-        {/* Desktop: Logo & Collapse Button */}
-        <div className="hidden sm:flex h-16 items-center justify-between px-4 border-b border-white/10">
-          <Link href="/dashboard" className={cn(
-            "flex items-center space-x-3 group overflow-hidden transition-all duration-300",
-            collapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-          )}>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10
-                          group-hover:bg-white/20 transition-all duration-300 flex-shrink-0">
-              <FileText className="h-5 w-5 text-white" />
-            </div>
-            <span className="font-heading text-lg font-bold text-white tracking-tight whitespace-nowrap">
-              TT13 DocGen
-            </span>
-          </Link>
+        {/* Desktop: Back & Collapse Button */}
+        <div className="hidden sm:flex p-3 border-b border-white/10 items-center justify-between">
+          {/* Back button - hidden when collapsed */}
+          {!collapsed && (
+            <Link
+              href="/"
+              className="p-2 text-white/60 hover:text-white transition-colors"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </Link>
+          )}
 
           {/* Collapse Button */}
           <button
             onClick={toggle}
             className={cn(
-              "flex items-center justify-center h-9 w-9 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300",
+              "p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all",
               collapsed && "mx-auto"
             )}
           >
