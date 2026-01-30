@@ -15,6 +15,7 @@ import {
   BookOpen,
   PanelLeftClose,
   PanelLeft,
+  ChevronLeft,
 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 
@@ -37,8 +38,38 @@ export function Sidebar() {
       collapsed ? "w-[72px]" : "w-64"
     )}>
       <div className="flex h-full flex-col">
-        {/* Logo & Collapse Button */}
-        <div className="flex h-16 items-center justify-between px-4 border-b border-white/10">
+        {/* Mobile: Back & Collapse row */}
+        <div className="sm:hidden p-2 border-b border-white/10">
+          <div className="flex items-center justify-between">
+            {/* Back button - hidden when collapsed */}
+            {!collapsed && (
+              <Link
+                href="/"
+                className="p-2 text-white/60 hover:text-white transition-colors"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </Link>
+            )}
+
+            {/* Collapse/Expand button */}
+            <button
+              onClick={toggle}
+              className={cn(
+                "p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all",
+                collapsed ? "mx-auto" : "ml-auto"
+              )}
+            >
+              {collapsed ? (
+                <PanelLeft className="w-5 h-5" />
+              ) : (
+                <PanelLeftClose className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop: Logo & Collapse Button */}
+        <div className="hidden sm:flex h-16 items-center justify-between px-4 border-b border-white/10">
           <Link href="/dashboard" className={cn(
             "flex items-center space-x-3 group overflow-hidden transition-all duration-300",
             collapsed ? "w-0 opacity-0" : "w-auto opacity-100"
