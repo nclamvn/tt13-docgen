@@ -42,13 +42,13 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <span className="text-white">Công cụ AI cho</span>
-            <br />
             <span className="bg-gradient-to-r from-primary-400 via-emerald-400 to-amber-400 bg-clip-text text-transparent">
-              doanh nghiệp phần mềm
+              TCdata Tools
             </span>
             <br />
-            <span className="text-white">Việt Nam</span>
+            <span className="text-white text-4xl md:text-5xl lg:text-6xl font-medium">
+              Bộ công cụ AI cao cấp
+            </span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -84,7 +84,7 @@ export function Hero() {
               variant="outline"
               size="lg"
               asChild
-              className="h-14 px-8 text-base border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-600"
+              className="h-14 px-8 text-base border-primary-500 text-slate-300 hover:bg-primary-500/10 hover:text-white hover:border-primary-400"
             >
               <Link href="#demo">
                 Xem demo
@@ -194,16 +194,16 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 1 }}
           >
             {[
-              { value: '80%', label: 'Tiết kiệm thời gian' },
-              { value: '2', label: 'Sản phẩm AI' },
-              { value: '12+', label: 'Templates' },
-              { value: '24/7', label: 'AI hỗ trợ' },
+              { value: '80%', label: 'TIẾT KIỆM THỜI GIAN' },
+              { value: '2', label: 'SẢN PHẨM AI' },
+              { value: '12+', label: 'TEMPLATES' },
+              { value: '24/7', label: 'AI HỖ TRỢ' },
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <p className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-400 to-amber-400 bg-clip-text text-transparent">
+                <p className="text-3xl md:text-4xl font-bold bg-gradient-to-b from-slate-700 to-slate-900 bg-clip-text text-transparent">
                   {stat.value}
                 </p>
-                <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
+                <p className="text-sm font-bold text-primary-800 mt-1 tracking-wide uppercase">{stat.label}</p>
               </div>
             ))}
           </motion.div>
