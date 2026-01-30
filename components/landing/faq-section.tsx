@@ -13,9 +13,19 @@ import Link from 'next/link'
 
 const faqs = [
   {
+    question: 'TC Data Platform có những sản phẩm gì?',
+    answer:
+      'TC Data Platform hiện có 2 sản phẩm chính: (1) TT13 DocGen - công cụ AI tạo hồ sơ chứng minh quy trình sản xuất phần mềm theo Thông tư 13/2020, và (2) Power BI Layout Studio - công cụ thiết kế layout dashboard Power BI với drag & drop và 12+ industry templates.',
+  },
+  {
     question: 'TT13/2020 là gì?',
     answer:
       'Thông tư 13/2020/TT-BTTTT quy định về việc lập hồ sơ chứng minh quy trình sản xuất phần mềm của doanh nghiệp. Hồ sơ này bao gồm 7 công đoạn: Xác định yêu cầu, Phân tích thiết kế, Lập trình, Kiểm thử, Đóng gói, Cài đặt bàn giao, và Phát hành.',
+  },
+  {
+    question: 'Power BI Layout Studio hoạt động như thế nào?',
+    answer:
+      'Power BI Layout Studio cho phép bạn thiết kế layout dashboard Power BI trực quan bằng cách drag & drop các visual (chart, table, KPI card...) lên canvas. Bạn có thể chọn từ 12+ templates theo ngành nghề (Sales, Finance, HR, Healthcare...) và export JSON để import vào Power BI Desktop.',
   },
   {
     question: 'AI có thể tạo nội dung chính xác không?',
@@ -25,7 +35,7 @@ const faqs = [
   {
     question: 'File output có định dạng gì?',
     answer:
-      'Hiện tại chúng tôi hỗ trợ export file DOCX (Microsoft Word). File đã được format sẵn với header, footer, page numbers, và sẵn sàng để in ấn. PDF sẽ được hỗ trợ trong phiên bản tiếp theo.',
+      'TT13 DocGen export file DOCX (Microsoft Word) với format sẵn header, footer, page numbers. Power BI Studio export JSON tương thích Power BI Desktop, giúp bạn import layout trực tiếp vào project.',
   },
   {
     question: 'Dữ liệu của tôi có an toàn không?',
@@ -33,14 +43,14 @@ const faqs = [
       'Có, chúng tôi cam kết bảo mật dữ liệu của bạn. Tất cả files được mã hóa khi truyền và lưu trữ. Chúng tôi không chia sẻ dữ liệu với bên thứ ba và bạn có thể xóa dữ liệu bất cứ lúc nào.',
   },
   {
-    question: 'Có thể tùy chỉnh template không?',
+    question: 'Có thể dùng thử miễn phí không?',
     answer:
-      'Có, bạn có thể tùy chỉnh logo, màu sắc thương hiệu, và lưu templates riêng. Bạn cũng có thể điều chỉnh nội dung của từng công đoạn trước khi export.',
+      'Có, cả hai sản phẩm đều có chế độ dùng thử miễn phí. TT13 DocGen có demo mode không cần đăng ký, và Power BI Studio hoàn toàn miễn phí sử dụng.',
   },
   {
     question: 'Làm sao để liên hệ hỗ trợ?',
     answer:
-      'Bạn có thể gửi email đến support@tcdata.vn hoặc sử dụng chat support trong app.',
+      'Bạn có thể gửi email đến support@tcdata.vn hoặc sử dụng chat support trong app. Đội ngũ hỗ trợ sẵn sàng giải đáp mọi thắc mắc của bạn.',
   },
 ]
 
@@ -71,13 +81,13 @@ export function FAQSection() {
               </span>
             </h2>
             <p className="text-lg text-slate-600 mb-8">
-              Giải đáp các thắc mắc phổ biến về TT13 DocGen và quy định TT13/2020.
+              Giải đáp các thắc mắc phổ biến về TC Data Platform, TT13 DocGen và Power BI Studio.
             </p>
 
             {/* Contact CTA */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-primary-50 to-emerald-50 border border-primary-100">
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-primary-50 to-amber-50 border border-primary-100">
               <div className="flex items-center gap-4 mb-4">
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary-500 to-emerald-500 flex items-center justify-center">
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary-500 to-amber-500 flex items-center justify-center">
                   <MessageCircle className="h-6 w-6 text-white" />
                 </div>
                 <div>
@@ -85,7 +95,7 @@ export function FAQSection() {
                   <p className="text-sm text-slate-600">Đội ngũ của chúng tôi sẵn sàng giúp đỡ</p>
                 </div>
               </div>
-              <Button asChild className="w-full bg-gradient-to-r from-primary-500 to-emerald-500 text-white">
+              <Button asChild className="w-full bg-gradient-to-r from-primary-500 to-amber-500 text-white">
                 <Link href="mailto:support@tcdata.vn">
                   Liên hệ hỗ trợ
                 </Link>

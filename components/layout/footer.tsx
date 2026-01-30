@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FileText, Sparkles } from 'lucide-react'
+import { Sparkles, FileText, LayoutDashboard } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -7,7 +7,7 @@ export function Footer() {
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-primary-500/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-emerald-500/5 rounded-full blur-[80px]" />
+        <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[80px]" />
       </div>
 
       <div className="container relative z-10 py-16">
@@ -15,15 +15,15 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-emerald-500">
-                <FileText className="h-5 w-5 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-amber-500">
+                <Sparkles className="h-5 w-5 text-white" />
               </div>
               <span className="font-heading text-xl font-bold">
-                TT13 DocGen
+                TC Data
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed">
-              Biến tài liệu thô thành hồ sơ TT13/2020 chuyên nghiệp trong vài phút với AI.
+              Bộ công cụ AI-Powered cho doanh nghiệp phần mềm Việt Nam. Tự động hóa quy trình, tiết kiệm thời gian.
             </p>
             <div className="flex items-center gap-2 text-xs text-primary-400">
               <Sparkles className="h-4 w-4" />
@@ -31,18 +31,25 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Product */}
+          {/* Products */}
           <div>
             <h4 className="font-semibold mb-4 text-white">Sản phẩm</h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="#features" className="text-slate-400 hover:text-primary-400 transition-colors">
-                  Tính năng
+                <Link href="/login" className="flex items-center gap-2 text-slate-400 hover:text-primary-400 transition-colors">
+                  <FileText className="h-4 w-4" />
+                  TT13 DocGen
                 </Link>
               </li>
               <li>
-                <Link href="#demo" className="text-slate-400 hover:text-primary-400 transition-colors">
-                  Demo
+                <Link href="/powerbi" className="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition-colors">
+                  <LayoutDashboard className="h-4 w-4" />
+                  Power BI Studio
+                </Link>
+              </li>
+              <li>
+                <Link href="#features" className="text-slate-400 hover:text-primary-400 transition-colors">
+                  Tính năng
                 </Link>
               </li>
               <li>
