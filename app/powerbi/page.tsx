@@ -5,13 +5,9 @@ import { Button } from '@/components/ui/button'
 import {
   LayoutDashboard,
   ExternalLink,
-  ArrowLeft,
   Loader2,
-  Maximize2,
-  Minimize2,
   RefreshCw
 } from 'lucide-react'
-import Link from 'next/link'
 
 // Power BI Studio URL - change this to deployed URL in production
 const POWERBI_STUDIO_URL = process.env.NEXT_PUBLIC_POWERBI_STUDIO_URL || 'http://localhost:5173'
@@ -19,7 +15,6 @@ const POWERBI_STUDIO_URL = process.env.NEXT_PUBLIC_POWERBI_STUDIO_URL || 'http:/
 export default function PowerBIStudioPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
-  const [isFullscreen, setIsFullscreen] = useState(false)
 
   useEffect(() => {
     // Check if the Power BI Studio is accessible
@@ -48,10 +43,6 @@ export default function PowerBIStudioPage() {
     setHasError(true)
   }
 
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen)
-  }
-
   const refreshIframe = () => {
     setIsLoading(true)
     setHasError(false)
@@ -63,80 +54,9 @@ export default function PowerBIStudioPage() {
   }
 
   return (
-    <div className={`min-h-screen bg-slate-950 ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
-      {/* Header */}
-      <header className={`border-b border-white/10 bg-slate-900/80 backdrop-blur-xl ${isFullscreen ? 'hidden' : ''}`}>
-        <div className="container flex h-14 items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span className="text-sm">Quay lại</span>
-            </Link>
-            <div className="h-6 w-px bg-slate-700" />
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-                <LayoutDashboard className="h-4 w-4 text-white" />
-              </div>
-              <span className="font-semibold text-white">Power BI Layout Studio</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={refreshIframe}
-              className="text-slate-400 hover:text-white"
-            >
-              <RefreshCw className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleFullscreen}
-              className="text-slate-400 hover:text-white"
-            >
-              {isFullscreen ? (
-                <Minimize2 className="h-4 w-4" />
-              ) : (
-                <Maximize2 className="h-4 w-4" />
-              )}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              className="text-slate-400 hover:text-white"
-            >
-              <a href={POWERBI_STUDIO_URL} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Mở tab mới
-              </a>
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      {/* Fullscreen header */}
-      {isFullscreen && (
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={toggleFullscreen}
-            className="bg-slate-800/80 backdrop-blur text-white hover:bg-slate-700"
-          >
-            <Minimize2 className="h-4 w-4 mr-2" />
-            Thoát fullscreen
-          </Button>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <main className={`relative ${isFullscreen ? 'h-screen' : 'h-[calc(100vh-56px)]'}`}>
+    <div className="h-screen w-screen bg-slate-950">
+      {/* Main Content - Full screen iframe */}
+      <main className="relative h-full w-full">
         {/* Loading State */}
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-slate-950 z-10">
@@ -186,7 +106,7 @@ export default function PowerBIStudioPage() {
           </div>
         )}
 
-        {/* Iframe */}
+        {/* Iframe - Full screen */}
         <iframe
           src={POWERBI_STUDIO_URL}
           className="w-full h-full border-0"
