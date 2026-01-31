@@ -1,6 +1,8 @@
 // lib/ai/prompts/tt13-optimized.ts
 // Optimized prompts following Anthropic best practices with XML tags
 
+import { STAGE_TEMPLATES, LEGAL_TERMINOLOGY, LEGAL_REFERENCES } from '@/lib/templates/tt13-legal-templates'
+
 export const STAGE_NAMES: Record<number, string> = {
   1: 'Xác định yêu cầu',
   2: 'Phân tích và thiết kế',
@@ -227,18 +229,42 @@ Thông tư 13/2020/TT-BTTTT quy định 7 công đoạn sản xuất phần mề
  */
 export function buildStagePrompt(projectInfo: Record<string, unknown>, stageNumber: number): string {
   const stageName = STAGE_NAMES[stageNumber] || `Công đoạn ${stageNumber}`
+  const template = STAGE_TEMPLATES[stageNumber]
+
+  // Build reference template section
+  const templateSection = template ? `
+<reference_template>
+Dưới đây là mẫu chuẩn cho Công đoạn ${stageNumber}. Sử dụng làm tham khảo và tùy chỉnh cho phù hợp với dự án cụ thể:
+
+Mục tiêu mẫu: ${template.objective}
+
+Hoạt động mẫu:
+${template.activities.map((a, i) => `${i + 1}. ${a.name}: ${a.description}`).join('\n')}
+
+Sản phẩm đầu ra mẫu:
+${template.deliverables.map((d, i) => `${i + 1}. ${d.name} (${d.format}): ${d.description}`).join('\n')}
+
+Tiêu chí chất lượng mẫu:
+${template.qualityCriteria.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+${template.notes ? `Ghi chú: ${template.notes}` : ''}
+</reference_template>
+` : ''
 
   return `<project_info>
 ${JSON.stringify(projectInfo, null, 2)}
 </project_info>
-
+${templateSection}
 <request>
 Tạo nội dung chi tiết cho Công đoạn ${stageNumber}: ${stageName}
 
 Yêu cầu:
-- Nội dung phải phù hợp với thông tin dự án ở trên
-- Đảm bảo các hoạt động và sản phẩm đầu ra phù hợp với quy mô và công nghệ của dự án
-- Sử dụng thuật ngữ Việt Nam chính thức
+- Nội dung phải phù hợp với thông tin dự án ở trên (tên, công nghệ, quy mô, thời gian)
+- Tham khảo mẫu chuẩn nhưng tùy chỉnh cho phù hợp với đặc thù dự án
+- Đảm bảo các hoạt động và sản phẩm đầu ra thực tế, cụ thể
+- Sử dụng thuật ngữ Việt Nam chính thức theo TT13/2020
+- Công cụ phải phù hợp với công nghệ của dự án
+- Thời gian hoạt động phải hợp lý với quy mô dự án
 </request>
 
 QUAN TRỌNG: Chỉ trả về JSON theo schema đã định nghĩa, KHÔNG có text nào khác.`
