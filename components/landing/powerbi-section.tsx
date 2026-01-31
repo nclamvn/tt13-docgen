@@ -178,7 +178,11 @@ export function PowerBISection() {
                   {/* Mock Visuals */}
                   <div className="relative grid grid-cols-3 gap-3">
                     {/* KPI Cards */}
-                    {[1, 2, 3].map((i) => (
+                    {[
+                      { label: 'Revenue', value: '85K', change: '+12%' },
+                      { label: 'Users', value: '42K', change: '+8%' },
+                      { label: 'Growth', value: '67K', change: '+15%' }
+                    ].map((kpi, i) => (
                       <motion.div
                         key={i}
                         className="bg-slate-700/50 rounded-lg p-3 border border-amber-500/30"
@@ -187,9 +191,9 @@ export function PowerBISection() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.3, delay: 0.1 * i }}
                       >
-                        <div className="text-[10px] text-slate-500 mb-1">KPI {i}</div>
-                        <div className="text-lg font-bold text-white">${(Math.random() * 100).toFixed(0)}K</div>
-                        <div className="text-[10px] text-emerald-400">+12%</div>
+                        <div className="text-[10px] text-slate-500 mb-1">{kpi.label}</div>
+                        <div className="text-lg font-bold text-white">${kpi.value}</div>
+                        <div className="text-[10px] text-emerald-400">{kpi.change}</div>
                       </motion.div>
                     ))}
                   </div>

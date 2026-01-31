@@ -96,7 +96,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500" suppressHydrationWarning>
             &copy; {new Date().getFullYear()} TC Data. All rights reserved.
           </p>
           <p className="text-xs text-slate-600">
