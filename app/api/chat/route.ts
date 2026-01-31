@@ -1,66 +1,75 @@
+// app/api/chat/route.ts
+
 import { auth } from '@/lib/auth'
-import { SYSTEM_PROMPT } from '@/lib/ai/prompts/system'
-import Anthropic from '@anthropic-ai/sdk'
+import { createAIService, createSystemAIService } from '@/lib/ai/ai-service'
+import { buildChatSystemPrompt } from '@/lib/ai/prompts/tt13-optimized'
+
+interface ChatMessage {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+interface ProjectContext {
+  step?: string
+  files?: string[]
+  config?: {
+    name?: string
+    clientName?: string
+    stages?: number[]
+  }
+}
 
 export async function POST(req: Request) {
   try {
+    // Authentication required for chat
     const session = await auth()
     if (!session?.user) {
       return new Response('Unauthorized', { status: 401 })
     }
 
-    const { messages, projectContext } = await req.json()
-
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
-    })
-
-    // Build system prompt with context
-    let systemPrompt = SYSTEM_PROMPT
-    if (projectContext) {
-      systemPrompt += `\n\n## CONTEXT HIỆN TẠI
-- Bước: ${projectContext.step}
-- Files đã upload: ${projectContext.files?.join(', ') || 'Chưa có'}
-- Tên dự án: ${projectContext.config?.name || 'Chưa đặt'}
-- Khách hàng: ${projectContext.config?.clientName || 'Chưa có'}
-- Công đoạn: ${projectContext.config?.stages?.join(', ') || '1-7'}`
+    const userId = session.user.id
+    const { messages, projectContext } = await req.json() as {
+      messages: ChatMessage[]
+      projectContext?: ProjectContext
     }
 
-    const stream = await anthropic.messages.stream({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 1024,
-      system: systemPrompt,
-      messages: messages.map((m: any) => ({
-        role: m.role,
-        content: m.content,
-      })),
-    })
+    // Validate messages
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      return new Response('Messages array is required', { status: 400 })
+    }
 
-    // Convert to readable stream for response
-    const encoder = new TextEncoder()
-    const readableStream = new ReadableStream({
-      async start(controller) {
-        for await (const event of stream) {
-          if (
-            event.type === 'content_block_delta' &&
-            event.delta.type === 'text_delta'
-          ) {
-            controller.enqueue(encoder.encode(event.delta.text))
-          }
-        }
-        controller.close()
-      },
-    })
+    // Create AI service with user's API keys
+    const aiService = userId
+      ? createAIService(userId)
+      : createSystemAIService()
+
+    // Build system prompt with project context
+    const systemPrompt = buildChatSystemPrompt(projectContext)
+
+    // Get readable stream for response
+    const readableStream = await aiService.getReadableStream(
+      '', // prompt not used when messages are provided
+      systemPrompt,
+      messages
+    )
 
     return new Response(readableStream, {
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
         'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-      },
+        'Connection': 'keep-alive'
+      }
     })
   } catch (error) {
     console.error('Chat API error:', error)
+
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+
+    // Return appropriate error response
+    if (errorMessage.includes('No AI provider available')) {
+      return new Response('No AI provider available. Please configure an API key.', { status: 503 })
+    }
+
     return new Response('Internal Server Error', { status: 500 })
   }
 }

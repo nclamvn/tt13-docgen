@@ -1,50 +1,75 @@
 // app/api/generate-stage/route.ts
 
-import { anthropic, AI_MODEL, MAX_TOKENS } from '@/lib/ai/claude'
-import { GENERATE_STAGE_PROMPT, STAGE_NAMES } from '@/lib/ai/prompts/system'
+import { auth } from '@/lib/auth'
+import { createAIService, createSystemAIService } from '@/lib/ai/ai-service'
+import { TT13_STAGE_PROMPT, buildStagePrompt, STAGE_NAMES } from '@/lib/ai/prompts/tt13-optimized'
+import { parseStageData, StageData } from '@/lib/ai/validation'
 
 export async function POST(req: Request) {
   try {
     const { projectInfo, stageNumber } = await req.json()
 
-    if (!projectInfo || !stageNumber) {
+    // Validate input
+    if (!projectInfo || typeof projectInfo !== 'object') {
       return Response.json(
-        { error: 'Missing projectInfo or stageNumber' },
+        { error: 'Missing or invalid projectInfo' },
         { status: 400 }
       )
     }
 
-    const stageName = STAGE_NAMES[stageNumber] || `Công đoạn ${stageNumber}`
+    if (!stageNumber || typeof stageNumber !== 'number' || stageNumber < 1 || stageNumber > 7) {
+      return Response.json(
+        { error: 'stageNumber must be a number between 1 and 7' },
+        { status: 400 }
+      )
+    }
 
-    const prompt = GENERATE_STAGE_PROMPT
-      .replace('{projectInfo}', JSON.stringify(projectInfo, null, 2))
-      .replace('{stageNumber}', String(stageNumber))
-      .replace('{stageName}', stageName)
+    // Get user session for AI service
+    const session = await auth()
+    const userId = session?.user?.id
 
-    const response = await anthropic.messages.create({
-      model: AI_MODEL,
-      max_tokens: MAX_TOKENS,
-      messages: [{ role: 'user', content: prompt }]
+    // Create AI service with user's API keys if available
+    const aiService = userId
+      ? createAIService(userId)
+      : createSystemAIService()
+
+    // Build prompts
+    const systemPrompt = TT13_STAGE_PROMPT
+    const userPrompt = buildStagePrompt(projectInfo, stageNumber)
+
+    // Generate and validate stage data
+    const stageData = await aiService.generateJSON<StageData>(
+      userPrompt,
+      systemPrompt,
+      parseStageData
+    )
+
+    return Response.json({
+      data: stageData,
+      stage: {
+        number: stageNumber,
+        name: STAGE_NAMES[stageNumber]
+      }
     })
-
-    const textContent = response.content.find(c => c.type === 'text')
-    if (!textContent || textContent.type !== 'text') {
-      throw new Error('No text response from AI')
-    }
-
-    const jsonMatch = textContent.text.match(/\{[\s\S]*\}/)
-    if (!jsonMatch) {
-      throw new Error('Could not parse JSON from AI response')
-    }
-
-    const stageData = JSON.parse(jsonMatch[0])
-
-    return Response.json({ data: stageData })
   } catch (error) {
     console.error('Generate stage API error:', error)
+
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+
+    // Determine appropriate status code
+    let status = 500
+    if (errorMessage.includes('No AI provider available')) {
+      status = 503
+    } else if (errorMessage.includes('Invalid stage data')) {
+      status = 422 // Unprocessable Entity - AI returned invalid data
+    }
+
     return Response.json(
-      { error: 'Failed to generate stage content' },
-      { status: 500 }
+      {
+        error: 'Failed to generate stage content',
+        details: errorMessage
+      },
+      { status }
     )
   }
 }
